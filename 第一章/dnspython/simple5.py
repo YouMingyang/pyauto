@@ -27,9 +27,8 @@ def checkip(ip):
     try:
         conn.request("GET", "/",headers = {"Host": appdomain})  #发起URL请求，添加host主机头
         r=conn.getresponse()
-        getcontent =r.read(15)   #获取URL页面前15个字符，以便做可用性校验
     finally:
-        if getcontent=="<!doctype html>":  #监控URL页的内容一般是事先定义好，比如“HTTP200”等
+        if r.status == 200:  #服务器返回status 200，表示成功
             print ip+" [OK]"
         else:
             print ip+" [Error]"    #此处可放告警程序，可以是邮件、短信通知
